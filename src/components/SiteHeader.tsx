@@ -33,6 +33,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link to="/login-dokter" className="hidden text-xs font-medium text-muted-foreground hover:text-foreground sm:inline">
+            Login Dokter
+          </Link>
+          <Link to="/login-admin" className="hidden text-xs font-medium text-muted-foreground hover:text-foreground sm:inline">
+            Login Admin
+          </Link>
           <Button variant="ghost" size="sm" className="hidden sm:inline-flex">Masuk</Button>
           <Button size="sm">Daftar</Button>
         </div>
