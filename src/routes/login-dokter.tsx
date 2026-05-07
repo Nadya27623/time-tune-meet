@@ -47,7 +47,7 @@ function LoginDokterPage() {
       );
       toast.success("Login dokter berhasil");
       setLoading(false);
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard-dokter" });
     }, 700);
   };
 

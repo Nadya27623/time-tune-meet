@@ -56,7 +56,7 @@ function LoginAdminPage() {
       );
       toast.success("Login admin berhasil");
       setLoading(false);
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard-admin" });
     }, 700);
   };
 
