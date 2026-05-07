@@ -13,6 +13,8 @@ import { Route as LoginDokterRouteImport } from './routes/login-dokter'
 import { Route as LoginAdminRouteImport } from './routes/login-admin'
 import { Route as KonsultanRouteImport } from './routes/konsultan'
 import { Route as JanjiSayaRouteImport } from './routes/janji-saya'
+import { Route as DashboardDokterRouteImport } from './routes/dashboard-dokter'
+import { Route as DashboardAdminRouteImport } from './routes/dashboard-admin'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +38,16 @@ const JanjiSayaRoute = JanjiSayaRouteImport.update({
   path: '/janji-saya',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardDokterRoute = DashboardDokterRouteImport.update({
+  id: '/dashboard-dokter',
+  path: '/dashboard-dokter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAdminRoute = DashboardAdminRouteImport.update({
+  id: '/dashboard-admin',
+  path: '/dashboard-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookingRoute = BookingRouteImport.update({
   id: '/booking',
   path: '/booking',
@@ -50,6 +62,8 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
+  '/dashboard-admin': typeof DashboardAdminRoute
+  '/dashboard-dokter': typeof DashboardDokterRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
   '/login-admin': typeof LoginAdminRoute
@@ -58,6 +72,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
+  '/dashboard-admin': typeof DashboardAdminRoute
+  '/dashboard-dokter': typeof DashboardDokterRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
   '/login-admin': typeof LoginAdminRoute
@@ -67,6 +83,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
+  '/dashboard-admin': typeof DashboardAdminRoute
+  '/dashboard-dokter': typeof DashboardDokterRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
   '/login-admin': typeof LoginAdminRoute
@@ -77,6 +95,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/booking'
+    | '/dashboard-admin'
+    | '/dashboard-dokter'
     | '/janji-saya'
     | '/konsultan'
     | '/login-admin'
@@ -85,6 +105,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/booking'
+    | '/dashboard-admin'
+    | '/dashboard-dokter'
     | '/janji-saya'
     | '/konsultan'
     | '/login-admin'
@@ -93,6 +115,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/booking'
+    | '/dashboard-admin'
+    | '/dashboard-dokter'
     | '/janji-saya'
     | '/konsultan'
     | '/login-admin'
@@ -102,6 +126,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookingRoute: typeof BookingRoute
+  DashboardAdminRoute: typeof DashboardAdminRoute
+  DashboardDokterRoute: typeof DashboardDokterRoute
   JanjiSayaRoute: typeof JanjiSayaRoute
   KonsultanRoute: typeof KonsultanRoute
   LoginAdminRoute: typeof LoginAdminRoute
@@ -138,6 +164,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JanjiSayaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard-dokter': {
+      id: '/dashboard-dokter'
+      path: '/dashboard-dokter'
+      fullPath: '/dashboard-dokter'
+      preLoaderRoute: typeof DashboardDokterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard-admin': {
+      id: '/dashboard-admin'
+      path: '/dashboard-admin'
+      fullPath: '/dashboard-admin'
+      preLoaderRoute: typeof DashboardAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/booking': {
       id: '/booking'
       path: '/booking'
@@ -158,6 +198,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookingRoute: BookingRoute,
+  DashboardAdminRoute: DashboardAdminRoute,
+  DashboardDokterRoute: DashboardDokterRoute,
   JanjiSayaRoute: JanjiSayaRoute,
   KonsultanRoute: KonsultanRoute,
   LoginAdminRoute: LoginAdminRoute,
@@ -166,3 +208,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
