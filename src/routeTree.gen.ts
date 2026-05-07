@@ -9,11 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginDokterRouteImport } from './routes/login-dokter'
+import { Route as LoginAdminRouteImport } from './routes/login-admin'
 import { Route as KonsultanRouteImport } from './routes/konsultan'
 import { Route as JanjiSayaRouteImport } from './routes/janji-saya'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as IndexRouteImport } from './routes/index'
 
+const LoginDokterRoute = LoginDokterRouteImport.update({
+  id: '/login-dokter',
+  path: '/login-dokter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginAdminRoute = LoginAdminRouteImport.update({
+  id: '/login-admin',
+  path: '/login-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KonsultanRoute = KonsultanRouteImport.update({
   id: '/konsultan',
   path: '/konsultan',
@@ -40,12 +52,16 @@ export interface FileRoutesByFullPath {
   '/booking': typeof BookingRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
+  '/login-admin': typeof LoginAdminRoute
+  '/login-dokter': typeof LoginDokterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
+  '/login-admin': typeof LoginAdminRoute
+  '/login-dokter': typeof LoginDokterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,34 @@ export interface FileRoutesById {
   '/booking': typeof BookingRoute
   '/janji-saya': typeof JanjiSayaRoute
   '/konsultan': typeof KonsultanRoute
+  '/login-admin': typeof LoginAdminRoute
+  '/login-dokter': typeof LoginDokterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/booking' | '/janji-saya' | '/konsultan'
+  fullPaths:
+    | '/'
+    | '/booking'
+    | '/janji-saya'
+    | '/konsultan'
+    | '/login-admin'
+    | '/login-dokter'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/booking' | '/janji-saya' | '/konsultan'
-  id: '__root__' | '/' | '/booking' | '/janji-saya' | '/konsultan'
+  to:
+    | '/'
+    | '/booking'
+    | '/janji-saya'
+    | '/konsultan'
+    | '/login-admin'
+    | '/login-dokter'
+  id:
+    | '__root__'
+    | '/'
+    | '/booking'
+    | '/janji-saya'
+    | '/konsultan'
+    | '/login-admin'
+    | '/login-dokter'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +104,26 @@ export interface RootRouteChildren {
   BookingRoute: typeof BookingRoute
   JanjiSayaRoute: typeof JanjiSayaRoute
   KonsultanRoute: typeof KonsultanRoute
+  LoginAdminRoute: typeof LoginAdminRoute
+  LoginDokterRoute: typeof LoginDokterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login-dokter': {
+      id: '/login-dokter'
+      path: '/login-dokter'
+      fullPath: '/login-dokter'
+      preLoaderRoute: typeof LoginDokterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login-admin': {
+      id: '/login-admin'
+      path: '/login-admin'
+      fullPath: '/login-admin'
+      preLoaderRoute: typeof LoginAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/konsultan': {
       id: '/konsultan'
       path: '/konsultan'
@@ -107,16 +160,9 @@ const rootRouteChildren: RootRouteChildren = {
   BookingRoute: BookingRoute,
   JanjiSayaRoute: JanjiSayaRoute,
   KonsultanRoute: KonsultanRoute,
+  LoginAdminRoute: LoginAdminRoute,
+  LoginDokterRoute: LoginDokterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
